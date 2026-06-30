@@ -66,6 +66,15 @@ fn main() -> bitcoincore_rpc::Result<()> {
         Ok(())
     }
 
+    
+    fn get_wallet_client(wallet_name: &str) -> bitcoincore_rpc::Result<Client> {
+        let wallet_url = format!("{}/wallet/{}", RPC_URL, wallet_name);
+        Client::new(
+            &wallet_url,
+            Auth::UserPass(RPC_USER.to_owned(), RPC_PASS.to_owned()),
+        )
+    }
+
     // Generate spendable balances in the Miner wallet. How many blocks needs to be mined?
 
     // Load Trader wallet and generate a new address
