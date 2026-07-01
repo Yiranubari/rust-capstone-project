@@ -76,6 +76,15 @@ fn main() -> bitcoincore_rpc::Result<()> {
     }
 
     // Generate spendable balances in the Miner wallet. How many blocks needs to be mined?
+    let miner_rpc = get_wallet_client("Miner")?;
+    
+    let mining_address = miner_rpc.get_new_address(Some("Mining Reward"), None)?;
+    let addr_str = mining_address.assume_checked().to_string();
+    println!("Mining address: {}", addr_str);
+    
+    rpc.call::<Vec<String>>("generatetoaddress", &[json!(101), json!(&addr_str)])?;
+    let balance = miner_rpc.get_balance(None, None)?;
+    println!("Mined 101 blocks. Miner wallet balance: {} BTC", balance);
 
     // Load Trader wallet and generate a new address
 
