@@ -87,6 +87,10 @@ fn main() -> bitcoincore_rpc::Result<()> {
     println!("Mined 101 blocks. Miner wallet balance: {} BTC", balance);
 
     // Load Trader wallet and generate a new address
+    let trader_rpc = get_wallet_client("Trader")?;
+    let trader_address = trader_rpc.get_new_address(Some("Received"), None)?;
+    let trader_addr_str = trader_address.assume_checked().to_string();
+    println!("Trader receiving address: {}", trader_addr_str);
 
     // Send 20 BTC from Miner to Trader
 
